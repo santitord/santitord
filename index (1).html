@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SANTI TORD — Director de Arte IA</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200;400;700;900&family=Libre+Baskerville:ital,wght@0,400;1,400&family=Martian+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --ink: #0a0a08;
+  --paper: #f2ede4;
+  --acid: #c8ff00;
+  --acid2: #ff3c00;
+  --muted: #8a8580;
+  --f-display: 'Unbounded', sans-serif;
+  --f-serif: 'Libre Baskerville', serif;
+  --f-mono: 'Martian Mono', monospace;
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--f-mono);
+  font-size: 13px;
+  overflow-x: hidden;
+  cursor: none;
+}
+#cur {
+  width: 12px; height: 12px;
+  background: var(--acid);
+  border-radius: 50%;
+  position: fixed; z-index: 9999;
+  pointer-events: none;
+  mix-blend-mode: difference;
+  transition: width .2s, height .2s, border-radius .2s;
+}
+body.hovering #cur { width:60px; height:60px; border-radius:4px; }
+body::after {
+  content:''; position:fixed; inset:0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.75' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
+  pointer-events:none; z-index:9000;
+}
+nav {
+  position: fixed; top:0; left:0; right:0; z-index:500;
+  display:flex; justify-content:space-between; align-items:center;
+  padding: 20px 40px;
+  border-bottom: 1px solid rgba(242,237,228,.06);
+  backdrop-filter: blur(12px);
+  background: rgba(10,10,8,.7);
+}
+.nav-id {
+  font-family: var(--f-display);
+  font-weight: 900; font-size: .7rem;
+  letter-spacing: .08em; color: var(--acid);
+  text-decoration: none;
+}
+.nav-menu { display:flex; gap:32px; list-style:none; }
+.nav-menu a {
+  font-family: var(--f-mono); font-size: .6rem;
+  letter-spacing: .15em; text-transform: uppercase;
+  color: var(--muted); text-decoration:none;
+  transition: color .25s;
+}
+.nav-menu a:hover { color: var(--paper); }
+.nav-pill {
+  font-family: var(--f-mono); font-size: .55rem;
+  letter-spacing:.1em; padding: 6px 14px;
+  border: 1px solid var(--acid2); color: var(--acid2);
+  text-transform: uppercase; transition: all .25s;
+  text-decoration:none;
+}
+.nav-pill:hover { background: var(--acid2); color: var(--ink); }
+
+/* HERO */
+#hero {
+  min-height: 100vh;
+  padding: 100px 40px 60px;
+  display: flex; flex-direction:column; justify-content:flex-end;
+  position: relative; overflow:hidden;
+}
+.hero-mesh {
+  position:absolute; inset:0; z-index:0;
+  background:
+    radial-gradient(ellipse 55% 60% at 80% 20%, rgba(200,255,0,.07) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 50% at 10% 80%, rgba(255,60,0,.06) 0%, transparent 55%);
+  animation: meshPulse 8s ease-in-out infinite alternate;
+}
+@keyframes meshPulse {
+  0%  { filter: hue-rotate(0deg) brightness(1); }
+  100%{ filter: hue-rotate(15deg) brightness(1.1); }
+}
+.bg-text {
+  position:absolute; top:8%; left:0;
+  font-family: var(--f-display);
+  font-weight: 900;
+  font-size: clamp(6rem, 18vw, 18rem);
+  color: rgba(242,237,228,.03);
+  white-space: nowrap; user-select:none;
+  animation: marqueeX 18s linear infinite;
+  letter-spacing: -.02em;
+}
+@keyframes marqueeX {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.hero-tag {
+  position:relative; z-index:1;
+  display:flex; align-items:center; gap:12px;
+  font-family: var(--f-mono); font-size: .58rem;
+  letter-spacing: .3em; text-transform: uppercase;
+  color: var(--acid); margin-bottom: 24px;
+}
+.hero-tag::before { content:''; width:40px; height:1px; background: var(--acid); }
+.hero-headline {
+  position:relative; z-index:1;
+  font-family: var(--f-display); font-weight: 900;
+  font-size: clamp(3.5rem, 10vw, 10rem);
+  line-height: .88; letter-spacing: -.03em;
+}
+.hero-headline .line { display:block; overflow:hidden; }
+.hero-headline .line span {
+  display:block;
+  transform: translateY(110%);
+  animation: slideUp .9s cubic-bezier(.16,1,.3,1) forwards;
+}
+.hero-headline .line:nth-child(1) span { animation-delay:.1s; }
+.hero-headline .line:nth-child(2) span { animation-delay:.22s; }
+.hero-headline .line:nth-child(3) span { animation-delay:.34s; }
+.accent-word { color: var(--acid); }
+.italic-word { font-family: var(--f-serif); font-weight:400; font-style:italic; font-size:.85em; }
+@keyframes slideUp { to { transform: translateY(0); } }
+.hero-bottom {
+  position:relative; z-index:1;
+  display: flex; justify-content:space-between; align-items:flex-end;
+  margin-top: 48px;
+}
+.hero-desc {
+  max-width: 380px; font-family: var(--f-mono);
+  font-size: .65rem; line-height: 2;
+  color: var(--muted); letter-spacing: .04em;
+}
+.hero-cta {
+  display: flex; align-items:center; gap:16px;
+  font-family: var(--f-display); font-weight: 700;
+  font-size: .85rem; letter-spacing: .06em;
+  color: var(--paper); text-decoration:none;
+  padding: 18px 32px; border: 2px solid var(--paper);
+  transition: all .3s; text-transform: uppercase;
+}
+.hero-cta:hover { background: var(--paper); color: var(--ink); }
+.hero-cta .arrow { transition: transform .3s; }
+.hero-cta:hover .arrow { transform: translateX(6px); }
+
+/* TICKER */
+.ticker {
+  border-top: 1px solid rgba(242,237,228,.08);
+  border-bottom: 1px solid rgba(242,237,228,.08);
+  padding: 14px 0; overflow:hidden; white-space:nowrap;
+}
+.ticker-inner {
+  display:inline-flex; gap:60px;
+  animation: marqueeX 25s linear infinite;
+  font-family: var(--f-mono); font-size: .58rem;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: var(--muted);
+}
+.ticker-inner span { color: var(--acid); }
+
+/* BENTO */
+#work { padding: 80px 40px; }
+.section-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom: 40px; }
+.section-num { font-family: var(--f-mono); font-size: .55rem; letter-spacing: .3em; color: var(--acid); text-transform: uppercase; }
+.section-title { font-family: var(--f-display); font-weight: 900; font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: .9; letter-spacing:-.02em; }
+.section-sub { font-family: var(--f-mono); font-size: .58rem; color: var(--muted); letter-spacing: .1em; text-align:right; max-width: 200px; line-height:1.8; }
+.bento { display:grid; grid-template-columns: repeat(12, 1fr); gap: 12px; }
+.bcard {
+  position:relative; overflow:hidden;
+  background: #111110; border: 1px solid rgba(242,237,228,.06);
+  cursor:none; transition: border-color .3s;
+}
+.bcard:hover { border-color: rgba(200,255,0,.3); }
+.bcard-1 { grid-column: span 8; min-height: 420px; }
+.bcard-2 { grid-column: span 4; min-height: 420px; }
+.bcard-3 { grid-column: span 4; min-height: 300px; }
+.bcard-4 { grid-column: span 5; min-height: 300px; }
+.bcard-5 { grid-column: span 3; min-height: 300px; }
+.bcard-6 { grid-column: span 6; min-height: 260px; }
+.bcard-7 { grid-column: span 6; min-height: 260px; }
+.bvis { position:absolute; inset:0; transition: transform .7s cubic-bezier(.25,.46,.45,.94); }
+.bcard:hover .bvis { transform: scale(1.04); }
+.v1 { background: linear-gradient(135deg, #0d0d00 0%, #1a1a00 30%, #0a0a08 100%); }
+.v1::before { content:''; position:absolute; inset:0; background: conic-gradient(from 45deg at 60% 40%, transparent 0deg, rgba(200,255,0,.12) 60deg, transparent 120deg), radial-gradient(ellipse at 70% 30%, rgba(200,255,0,.15) 0%, transparent 50%); }
+.v1-lines { position:absolute; inset:0; background-image: repeating-linear-gradient(-30deg, transparent 0px, transparent 40px, rgba(200,255,0,.04) 40px, rgba(200,255,0,.04) 41px); }
+.v2 { background: linear-gradient(160deg, #0a0008 0%, #130010 50%, #080808 100%); }
+.v2::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse 80% 80% at 50% 50%, rgba(200,100,255,.12) 0%, transparent 60%); }
+.v2-circle { position:absolute; width:180px; height:180px; border-radius:50%; border: 1px solid rgba(200,100,255,.2); top:50%; left:50%; transform:translate(-50%,-50%); animation: pulse 3s ease-in-out infinite; }
+.v2-circle::before { content:''; position:absolute; inset:20px; border-radius:50%; border: 1px solid rgba(200,100,255,.15); animation: pulse 3s ease-in-out infinite .5s; }
+@keyframes pulse { 0%,100% { opacity:.3; transform: translate(-50%,-50%) scale(1); } 50% { opacity:.8; transform: translate(-50%,-50%) scale(1.05); } }
+.v3 { background: linear-gradient(180deg, #00080a 0%, #001018 100%); }
+.v3::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 30% 70%, rgba(0,200,255,.12) 0%, transparent 50%), radial-gradient(ellipse at 70% 30%, rgba(255,60,0,.08) 0%, transparent 40%); }
+.v4 { background: #0f0f08; }
+.v4-grid { position:absolute; inset:0; background-image: linear-gradient(rgba(200,255,0,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(200,255,0,.06) 1px, transparent 1px); background-size: 40px 40px; }
+.v4-dot { position:absolute; top:50%; left:50%; width:8px; height:8px; background: var(--acid); border-radius:50%; transform:translate(-50%,-50%); box-shadow: 0 0 40px 10px rgba(200,255,0,.3); }
+.v5 { background: linear-gradient(135deg, #0a0000 0%, #180500 60%, #0a0a08 100%); }
+.v5::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 50% 50%, rgba(255,60,0,.15) 0%, transparent 55%); }
+.v6 { background: #0c0c10; }
+.v6::before { content:''; position:absolute; inset:0; background: repeating-conic-gradient(rgba(100,100,255,.04) 0deg, transparent 1deg, transparent 30deg, rgba(100,100,255,.04) 31deg); animation: spin 30s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.v7 { background: linear-gradient(135deg, #00080a 0%, #001818 100%); }
+.v7::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 40% 60%, rgba(0,255,180,.1) 0%, transparent 50%); }
+.binfo { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding: 28px; background: linear-gradient(to top, rgba(10,10,8,.95) 0%, rgba(10,10,8,.3) 50%, transparent 100%); opacity:0; transition: opacity .35s; }
+.bcard:hover .binfo { opacity:1; }
+.bcat { font-family: var(--f-mono); font-size: .52rem; letter-spacing: .25em; text-transform: uppercase; color: var(--acid); margin-bottom: 6px; }
+.btitle { font-family: var(--f-display); font-weight: 900; font-size: clamp(1.2rem, 2.5vw, 2rem); letter-spacing: -.01em; line-height: 1; }
+.bclient { font-family: var(--f-mono); font-size: .55rem; color: var(--muted); margin-top:6px; letter-spacing:.1em; }
+.blabel { position:absolute; top:20px; left:20px; font-family: var(--f-mono); font-size: .5rem; letter-spacing: .2em; color: rgba(242,237,228,.3); text-transform: uppercase; z-index:2; }
+.byear { position:absolute; top:20px; right:20px; font-family: var(--f-display); font-weight: 900; font-size: 1.8rem; color: rgba(242,237,228,.06); z-index:2; user-select:none; }
+
+/* NUMBERS */
+.numbers-strip { border-top: 1px solid rgba(242,237,228,.06); border-bottom: 1px solid rgba(242,237,228,.06); padding: 60px 40px; display:grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(242,237,228,.04); }
+.num-item { background: var(--ink); padding: 40px 36px; position:relative; overflow:hidden; }
+.num-item::before { content:''; position:absolute; top:0; left:0; right:0; height: 2px; background: linear-gradient(to right, var(--acid), transparent); transform: scaleX(0); transform-origin:left; transition: transform .5s; }
+.num-item:hover::before { transform: scaleX(1); }
+.num-n { font-family: var(--f-display); font-weight: 900; font-size: clamp(2.8rem, 5vw, 4.5rem); color: var(--paper); letter-spacing: -.03em; line-height:1; }
+.num-n sup { font-size:.5em; color: var(--acid); vertical-align:top; margin-top:.1em; }
+.num-label { font-family: var(--f-mono); font-size: .52rem; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-top:8px; }
+
+/* ABOUT */
+#about { padding: 100px 40px; display:grid; grid-template-columns: 1fr 1fr; gap:80px; border-top: 1px solid rgba(242,237,228,.06); }
+.about-statement { font-family: var(--f-display); font-weight: 200; font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.1; letter-spacing: -.02em; margin-top: 32px; }
+.about-statement strong { font-weight: 900; color: var(--acid); }
+.about-statement em { font-family: var(--f-serif); font-weight: 400; font-style: italic; color: var(--muted); }
+.about-right { padding-top: 60px; }
+.about-bio { font-family: var(--f-mono); font-size: .65rem; line-height: 2.2; color: rgba(242,237,228,.6); letter-spacing: .03em; margin-bottom:40px; }
+.skills-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; background: rgba(242,237,228,.04); border: 1px solid rgba(242,237,228,.06); }
+.skill-item { background: var(--ink); padding: 16px 20px; font-family: var(--f-mono); font-size: .55rem; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); transition: all .25s; border: 1px solid transparent; }
+.skill-item:hover { color: var(--acid); border-color: rgba(200,255,0,.15); background: rgba(200,255,0,.02); }
+
+/* PROCESS */
+#process { padding: 100px 40px; border-top: 1px solid rgba(242,237,228,.06); }
+.process-grid { display:grid; grid-template-columns: repeat(4,1fr); gap:0; margin-top:60px; border: 1px solid rgba(242,237,228,.06); }
+.proc-item { padding: 40px 32px; border-right: 1px solid rgba(242,237,228,.06); position:relative; overflow:hidden; transition: background .3s; }
+.proc-item:last-child { border-right:none; }
+.proc-item:hover { background: rgba(200,255,0,.02); }
+.proc-num { font-family: var(--f-display); font-weight: 900; font-size: 3.5rem; color: rgba(200,255,0,.08); line-height:1; margin-bottom:24px; }
+.proc-name { font-family: var(--f-display); font-weight: 700; font-size: 1rem; letter-spacing: .04em; margin-bottom:12px; text-transform: uppercase; }
+.proc-desc { font-family: var(--f-mono); font-size: .58rem; line-height:2; color: var(--muted); letter-spacing: .04em; }
+
+/* CONTACT */
+#contact { padding: 120px 40px 80px; border-top: 1px solid rgba(242,237,228,.06); position:relative; overflow:hidden; }
+.contact-bg { position:absolute; inset:0; background: radial-gradient(ellipse 50% 70% at 80% 50%, rgba(200,255,0,.04) 0%, transparent 60%), radial-gradient(ellipse 40% 60% at 20% 50%, rgba(255,60,0,.04) 0%, transparent 60%); pointer-events:none; }
+.contact-big { font-family: var(--f-display); font-weight: 900; font-size: clamp(4rem, 12vw, 11rem); line-height: .85; letter-spacing: -.03em; position:relative; z-index:1; margin-bottom:60px; }
+.contact-big .sub { display:block; font-family: var(--f-serif); font-weight:400; font-style:italic; color: var(--muted); font-size:.45em; letter-spacing:.01em; }
+.contact-row { position:relative; z-index:1; display:flex; gap:60px; align-items:flex-end; flex-wrap:wrap; }
+.contact-links { display:flex; flex-direction:column; gap:1px; flex:1; }
+.clink { display:flex; justify-content:space-between; align-items:center; padding: 18px 0; border-bottom: 1px solid rgba(242,237,228,.08); text-decoration:none; color: var(--paper); transition: all .25s; }
+.clink:hover { padding-left:12px; border-bottom-color: var(--acid); }
+.clink-label { font-family: var(--f-mono); font-size: .55rem; letter-spacing: .25em; text-transform: uppercase; color: var(--muted); width: 90px; transition: color .25s; }
+.clink:hover .clink-label { color: var(--acid); }
+.clink-val { font-family: var(--f-display); font-weight: 400; font-size: .85rem; letter-spacing: .02em; }
+.clink-arr { color: var(--acid); font-size:.9rem; opacity:0; transition: opacity .25s, transform .25s; }
+.clink:hover .clink-arr { opacity:1; transform:translateX(4px); }
+
+footer { padding: 28px 40px; border-top: 1px solid rgba(242,237,228,.06); display:flex; justify-content:space-between; align-items:center; }
+.foot-copy { font-family: var(--f-mono); font-size: .52rem; letter-spacing: .15em; color: rgba(242,237,228,.2); text-transform: uppercase; }
+.foot-built { font-family: var(--f-mono); font-size: .52rem; letter-spacing: .1em; color: rgba(242,237,228,.15); }
+.foot-built span { color: var(--acid); }
+
+.rv { opacity:0; transform:translateY(32px); transition: opacity .9s ease, transform .9s ease; }
+.rv.on { opacity:1; transform:translateY(0); }
+
+@media (max-width:860px) {
+  nav { padding:16px 20px; }
+  .nav-menu { display:none; }
+  #hero { padding: 80px 20px 50px; }
+  #work { padding: 60px 20px; }
+  .bento { grid-template-columns:1fr 1fr; }
+  .bcard-1,.bcard-2 { grid-column:span 2; min-height:280px; }
+  .bcard-3,.bcard-4,.bcard-5 { grid-column:span 1; min-height:220px; }
+  .bcard-6,.bcard-7 { grid-column:span 1; min-height:200px; }
+  #about { grid-template-columns:1fr; padding:60px 20px; gap:40px; }
+  .numbers-strip { grid-template-columns:1fr 1fr; padding:40px 20px; }
+  #process { padding:60px 20px; }
+  .process-grid { grid-template-columns:1fr 1fr; }
+  #contact { padding:80px 20px 60px; }
+  footer { padding:20px; flex-direction:column; gap:8px; text-align:center; }
+  .section-header { flex-direction:column; align-items:flex-start; gap:16px; }
+  .hero-bottom { flex-direction:column; gap:32px; align-items:flex-start; }
+}
+</style>
+</head>
+<body>
+<div id="cur"></div>
+
+<nav>
+  <a href="#" class="nav-id">ST—</a>
+  <ul class="nav-menu">
+    <li><a href="#work">Trabajos</a></li>
+    <li><a href="#about">Sobre mí</a></li>
+    <li><a href="#process">Proceso</a></li>
+    <li><a href="#contact">Contacto</a></li>
+  </ul>
+  <a href="#contact" class="nav-pill">Disponible ↗</a>
+</nav>
+
+<section id="hero">
+  <div class="hero-mesh"></div>
+  <div class="bg-text">DIRECTOR DE ARTE — IA — CAMPAÑAS — DIRECTOR DE ARTE — IA — CAMPAÑAS — &nbsp;DIRECTOR DE ARTE — IA — CAMPAÑAS — DIRECTOR DE ARTE — IA — CAMPAÑAS — &nbsp;</div>
+  <div class="hero-tag">Buenos Aires — Disponible global</div>
+  <h1 class="hero-headline">
+    <span class="line"><span>SANTI</span></span>
+    <span class="line"><span><em class="italic-word">TORD</em></span></span>
+    <span class="line"><span class="accent-word">DIRECTOR</span></span>
+  </h1>
+  <div class="hero-bottom">
+    <p class="hero-desc">
+      Campaña. Concepto. Ejecución.<br>
+      Director de arte con IA integrada al proceso creativo.<br>
+      Donde la intuición humana<br>y la velocidad artificial se fusionan.
+    </p>
+    <a href="#work" class="hero-cta">Ver trabajos <span class="arrow">→</span></a>
+  </div>
+</section>
+
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>★</span> Dirección Creativa <span>★</span> Campañas 360° <span>★</span> Branding con IA <span>★</span> Contenido Digital <span>★</span> Producción <span>★</span> Estrategia Visual &nbsp;&nbsp;&nbsp;
+    <span>★</span> Dirección Creativa <span>★</span> Campañas 360° <span>★</span> Branding con IA <span>★</span> Contenido Digital <span>★</span> Producción <span>★</span> Estrategia Visual &nbsp;&nbsp;&nbsp;
+  </div>
+</div>
+
+<section id="work">
+  <div class="section-header rv">
+    <div>
+      <div class="section-num">01 — Portfolio</div>
+      <h2 class="section-title">TRABAJOS<br>SELECCIONADOS</h2>
+    </div>
+    <p class="section-sub">Campañas ejecutadas con precisión estratégica y visión creativa</p>
+  </div>
+  <div class="bento rv" style="transition-delay:.1s">
+    <div class="bcard bcard-1" onclick="openProject(0)">
+      <div class="bvis v1"><div class="v1-lines"></div></div>
+      <div class="blabel">Film / 360°</div><div class="byear">24</div>
+      <div class="binfo"><div class="bcat">Campaña Masiva</div><div class="btitle">NOMBRE DEL PROYECTO</div><div class="bclient">Cliente · Agencia · 2024</div></div>
+    </div>
+    <div class="bcard bcard-2" onclick="openProject(1)">
+      <div class="bvis v2"><div class="v2-circle"></div></div>
+      <div class="blabel">Branding</div><div class="byear">24</div>
+      <div class="binfo"><div class="bcat">Identidad de Marca</div><div class="btitle">PROYECTO DOS</div><div class="bclient">Cliente · 2024</div></div>
+    </div>
+    <div class="bcard bcard-3" onclick="openProject(2)">
+      <div class="bvis v3"></div>
+      <div class="blabel">Digital</div><div class="byear">23</div>
+      <div class="binfo"><div class="bcat">Social & Digital</div><div class="btitle">PROYECTO TRES</div><div class="bclient">Cliente · 2023</div></div>
+    </div>
+    <div class="bcard bcard-4" onclick="openProject(3)">
+      <div class="bvis v4"><div class="v4-grid"></div><div class="v4-dot"></div></div>
+      <div class="blabel">IA + Arte</div><div class="byear">23</div>
+      <div class="binfo"><div class="bcat">Dirección de Arte IA</div><div class="btitle">PROYECTO CUATRO</div><div class="bclient">Cliente · 2023</div></div>
+    </div>
+    <div class="bcard bcard-5" onclick="openProject(4)">
+      <div class="bvis v5"></div>
+      <div class="blabel">Film</div><div class="byear">23</div>
+      <div class="binfo"><div class="bcat">Film Publicitario</div><div class="btitle">PROYECTO CINCO</div><div class="bclient">Cliente · 2023</div></div>
+    </div>
+    <div class="bcard bcard-6" onclick="openProject(5)">
+      <div class="bvis v6"></div>
+      <div class="blabel">360°</div><div class="byear">22</div>
+      <div class="binfo"><div class="bcat">Campaña 360°</div><div class="btitle">PROYECTO SEIS</div><div class="bclient">Cliente · 2022</div></div>
+    </div>
+    <div class="bcard bcard-7" onclick="openProject(6)">
+      <div class="bvis v7"></div>
+      <div class="blabel">Branding</div><div class="byear">22</div>
+      <div class="binfo"><div class="bcat">Rebranding</div><div class="btitle">PROYECTO SIETE</div><div class="bclient">Cliente · 2022</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="numbers-strip rv">
+  <div class="num-item"><div class="num-n">8<sup>+</sup></div><div class="num-label">Años de experiencia</div></div>
+  <div class="num-item"><div class="num-n">40<sup>+</sup></div><div class="num-label">Campañas ejecutadas</div></div>
+  <div class="num-item"><div class="num-n">15</div><div class="num-label">Premios obtenidos</div></div>
+  <div class="num-item"><div class="num-n">3</div><div class="num-label">Países de alcance</div></div>
+</div>
+
+<section id="about">
+  <div class="rv">
+    <div class="section-num">02 — Sobre mí</div>
+    <h2 class="about-statement">
+      La IA no<br><strong>reemplaza</strong><br>la <em>creatividad</em>.<br>La <strong>amplifica</strong>.
+    </h2>
+  </div>
+  <div class="about-right rv" style="transition-delay:.15s">
+    <p class="about-bio">
+      Soy director de arte y creativo publicitario con base en Buenos Aires.<br><br>
+      Trabajo en la intersección entre estrategia, estética e inteligencia artificial. Integro herramientas de IA en el proceso creativo sin perder la voz humana que hace que las campañas realmente conecten.<br><br>
+      De la conceptualización al producto final, lidero cada etapa con foco en impacto, coherencia y cultura de marca.
+    </p>
+    <div class="skills-grid">
+      <div class="skill-item">Dirección Creativa</div>
+      <div class="skill-item">Campañas 360°</div>
+      <div class="skill-item">Branding / Identidad</div>
+      <div class="skill-item">Dirección de Arte IA</div>
+      <div class="skill-item">Contenido Digital</div>
+      <div class="skill-item">Estrategia Visual</div>
+      <div class="skill-item">Film Publicitario</div>
+      <div class="skill-item">Consultoría Creativa</div>
+    </div>
+  </div>
+</section>
+
+<section id="process">
+  <div class="section-header rv">
+    <div>
+      <div class="section-num">03 — Proceso</div>
+      <h2 class="section-title">CÓMO<br>TRABAJO</h2>
+    </div>
+  </div>
+  <div class="process-grid rv" style="transition-delay:.1s">
+    <div class="proc-item"><div class="proc-num">01</div><div class="proc-name">Escucha</div><div class="proc-desc">Entiendo el negocio, la audiencia y el problema real antes de proponer cualquier solución creativa.</div></div>
+    <div class="proc-item"><div class="proc-num">02</div><div class="proc-name">Concepto</div><div class="proc-desc">Desarrollo la idea central que funciona en todos los puntos de contacto. Simple, memorable, poderosa.</div></div>
+    <div class="proc-item"><div class="proc-num">03</div><div class="proc-name">Producción</div><div class="proc-desc">Ejecuto con IA y herramientas digitales sin perder la dirección artística humana que distingue el trabajo.</div></div>
+    <div class="proc-item"><div class="proc-num">04</div><div class="proc-name">Impacto</div><div class="proc-desc">Entrego campañas que generan resultados medibles y permanecen en la memoria de la audiencia.</div></div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact-bg"></div>
+  <div class="rv">
+    <h2 class="contact-big">HABLEMOS<span class="sub">de tu próximo proyecto</span></h2>
+  </div>
+  <div class="contact-row rv" style="transition-delay:.1s">
+    <div class="contact-links">
+      <a href="mailto:hola@santitord.com" class="clink">
+        <span class="clink-label">Email</span><span class="clink-val">hola@santitord.com</span><span class="clink-arr">↗</span>
+      </a>
+      <a href="https://linkedin.com/in/santitord" class="clink">
+        <span class="clink-label">LinkedIn</span><span class="clink-val">linkedin.com/in/santitord</span><span class="clink-arr">↗</span>
+      </a>
+      <a href="https://instagram.com/santitord" class="clink">
+        <span class="clink-label">Instagram</span><span class="clink-val">@santitord</span><span class="clink-arr">↗</span>
+      </a>
+      <a href="https://behance.net/santitord" class="clink">
+        <span class="clink-label">Behance</span><span class="clink-val">behance.net/santitord</span><span class="clink-arr">↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-copy">© 2025 Santi Tord. Buenos Aires, AR</div>
+  <div class="foot-built">Construido con <span>IA</span> + criterio humano</div>
+</footer>
+
+<div id="modal" style="position:fixed;inset:0;z-index:800;background:rgba(10,10,8,.97);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s;">
+  <div style="max-width:720px;width:90%;position:relative;">
+    <button onclick="closeProject()" style="position:absolute;top:-44px;right:0;background:none;border:none;font-family:var(--f-mono);font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);cursor:none;display:flex;align-items:center;gap:10px;">ESC — CERRAR <span style="color:var(--acid);font-size:1.2rem;">×</span></button>
+    <div id="mvis" style="width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;"></div>
+    <div style="padding:32px 0 0;">
+      <div id="mcat" style="font-family:var(--f-mono);font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;color:var(--acid);margin-bottom:8px;"></div>
+      <div id="mtitle" style="font-family:var(--f-display);font-weight:900;font-size:2.2rem;letter-spacing:-.02em;margin-bottom:12px;"></div>
+      <div id="mdesc" style="font-family:var(--f-mono);font-size:.62rem;line-height:2;color:rgba(242,237,228,.55);letter-spacing:.03em;"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const cur = document.getElementById('cur');
+document.addEventListener('mousemove', e => { cur.style.left = e.clientX-6+'px'; cur.style.top = e.clientY-6+'px'; });
+document.querySelectorAll('a,button,.bcard').forEach(el => {
+  el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+  el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+});
+const obs = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting) e.target.classList.add('on'); }), {threshold:.1});
+document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+const projects = [
+  { cat:'Campaña Masiva · Film 360°', title:'NOMBRE DEL PROYECTO', vis:'linear-gradient(135deg,#0d0d00,#1a1a00,#0a0a08)', desc:'Descripción del proyecto. Acá va el brief, el desafío creativo, la solución que encontraste y los resultados que generó. Podés mencionar medios, alcance, premios.' },
+  { cat:'Identidad de Marca', title:'PROYECTO DOS', vis:'linear-gradient(135deg,#0a0008,#130010,#080808)', desc:'Descripción del proyecto de branding. Contá el proceso, la identidad que construiste y el impacto para el cliente.' },
+  { cat:'Social & Digital', title:'PROYECTO TRES', vis:'linear-gradient(180deg,#00080a,#001018)', desc:'Campaña digital. Plataformas, resultados, engagement. Mostrá los números que hacen diferencia.' },
+  { cat:'Dirección de Arte IA', title:'PROYECTO CUATRO', vis:'linear-gradient(135deg,#0f0f08,#1a1a08)', desc:'Proyecto donde integraste IA al proceso creativo. Explicá cómo usaste la herramienta y qué resultado humano logró.' },
+  { cat:'Film Publicitario', title:'PROYECTO CINCO', vis:'linear-gradient(135deg,#0a0000,#180500)', desc:'Producción audiovisual. Dirección, producción, cliente. Si tiene premios, acá los mencionás.' },
+  { cat:'Campaña 360°', title:'PROYECTO SEIS', vis:'linear-gradient(135deg,#0c0c10,#10101a)', desc:'Campaña multicanal. Brief, concepto central y cómo se ejecutó en distintos medios.' },
+  { cat:'Rebranding', title:'PROYECTO SIETE', vis:'linear-gradient(135deg,#00080a,#001818)', desc:'Evolución de identidad. El antes y después de la marca. El impacto estratégico de la decisión creativa.' },
+];
+function openProject(i) {
+  const p=projects[i];
+  document.getElementById('mvis').style.background=p.vis;
+  document.getElementById('mcat').textContent=p.cat;
+  document.getElementById('mtitle').textContent=p.title;
+  document.getElementById('mdesc').textContent=p.desc;
+  const m=document.getElementById('modal');
+  m.style.opacity='1'; m.style.pointerEvents='all';
+  document.body.style.overflow='hidden';
+}
+function closeProject() {
+  const m=document.getElementById('modal');
+  m.style.opacity='0'; m.style.pointerEvents='none';
+  document.body.style.overflow='';
+}
+document.getElementById('modal').addEventListener('click', e => { if(e.target===document.getElementById('modal')) closeProject(); });
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeProject(); });
+</script>
+</body>
+</html>
