@@ -189,6 +189,23 @@ nav {
 .bcard-7 { grid-column: span 6; min-height: 260px; }
 .bvis { position:absolute; inset:0; transition: transform .7s cubic-bezier(.25,.46,.45,.94); }
 .bcard:hover .bvis { transform: scale(1.04); }
+/* VIDEO PREVIEW */
+.bvideo {
+  position:absolute; inset:0; z-index:1;
+  width:100%; height:100%;
+  object-fit:cover;
+  opacity:0;
+  transition: opacity .5s ease;
+  pointer-events:none;
+}
+.bcard:hover .bvideo { opacity:1; }
+.bvideo-overlay {
+  position:absolute; inset:0; z-index:2;
+  background: linear-gradient(to top, rgba(10,10,8,.6) 0%, transparent 50%);
+  opacity:0; transition: opacity .5s;
+  pointer-events:none;
+}
+.bcard:hover .bvideo-overlay { opacity:1; }
 .v1 { background: linear-gradient(135deg, #0d0d00 0%, #1a1a00 30%, #0a0a08 100%); }
 .v1::before { content:''; position:absolute; inset:0; background: conic-gradient(from 45deg at 60% 40%, transparent 0deg, rgba(200,255,0,.12) 60deg, transparent 120deg), radial-gradient(ellipse at 70% 30%, rgba(200,255,0,.15) 0%, transparent 50%); }
 .v1-lines { position:absolute; inset:0; background-image: repeating-linear-gradient(-30deg, transparent 0px, transparent 40px, rgba(200,255,0,.04) 40px, rgba(200,255,0,.04) 41px); }
@@ -341,36 +358,50 @@ footer { padding: 28px 40px; border-top: 1px solid rgba(242,237,228,.06); displa
   <div class="bento rv" style="transition-delay:.1s">
     <div class="bcard bcard-1" onclick="openProject(0)">
       <div class="bvis v1"><div class="v1-lines"></div></div>
+      <video class="bvideo" src="videos/proyecto1.mp4" muted playsinline preload="none"></video>
+      <div class="bvideo-overlay"></div>
       <div class="blabel">Digital</div><div class="byear">24</div>
       <div class="binfo"><div class="bcat">Film Publicitario</div><div class="btitle">Whisky Ballantines</div><div class="bclient">Ballantines · Producción HAMBRE · 2025</div></div>
     </div>
     <div class="bcard bcard-2" onclick="openProject(1)">
       <div class="bvis v2"><div class="v2-circle"></div></div>
+      <video class="bvideo" src="videos/proyecto2.mp4" muted playsinline preload="none"></video>
+      <div class="bvideo-overlay"></div>
       <div class="blabel">Digital</div><div class="byear">24</div>
       <div class="binfo"><div class="bcat">Spot redes</div><div class="btitle">TRAMPA</div><div class="bclient">Trampa.ar · 2025</div></div>
     </div>
     <div class="bcard bcard-3" onclick="openProject(2)">
       <div class="bvis v3"></div>
+      <video class="bvideo" src="videos/proyecto3.mp4" muted playsinline preload="none"></video>
+      <div class="bvideo-overlay"></div>
       <div class="blabel">Digital</div><div class="byear">23</div>
       <div class="binfo"><div class="bcat">Lanzamiento de producto</div><div class="btitle">Beldent</div><div class="bclient">Beldent Limón Ácido · 2024</div></div>
     </div>
     <div class="bcard bcard-4" onclick="openProject(3)">
       <div class="bvis v4"><div class="v4-grid"></div><div class="v4-dot"></div></div>
+      <video class="bvideo" src="videos/proyecto4.mp4" muted playsinline preload="none"></video>
+      <div class="bvideo-overlay"></div>
       <div class="blabel">Digital</div><div class="byear">23</div>
       <div class="binfo"><div class="bcat">Dirección de Arte IA</div><div class="btitle">Adidas</div><div class="bclient">Adidas Nothing Is Impossible· 2024</div></div>
     </div>
     <div class="bcard bcard-5" onclick="openProject(4)">
       <div class="bvis v5"></div>
+      <video class="bvideo" src="videos/proyecto5.mp4" muted playsinline preload="none"></video>
+      <div class="bvideo-overlay"></div>
       <div class="blabel">Film</div><div class="byear">23</div>
       <div class="binfo"><div class="bcat">Film Publicitario</div><div class="btitle">Ansake</div><div class="bclient">Ansake.ar · 2024</div></div>
     </div>
     <div class="bcard bcard-6" onclick="openProject(5)">
       <div class="bvis v6"></div>
+      <video class="bvideo" src="videos/proyecto6.mp4" muted playsinline preload="none"></video>
+      <div class="bvideo-overlay"></div>
       <div class="blabel">360°</div><div class="byear">22</div>
       <div class="binfo"><div class="bcat">Campaña 360°</div><div class="btitle">Kinder</div><div class="bclient">Kinder EasterDay · 2026</div></div>
     </div>
     <div class="bcard bcard-7" onclick="openProject(6)">
       <div class="bvis v7"></div>
+      <video class="bvideo" src="videos/proyecto7.mp4" muted playsinline preload="none"></video>
+      <div class="bvideo-overlay"></div>
       <div class="blabel">Branding</div><div class="byear">22</div>
       <div class="binfo"><div class="bcat">Rebranding</div><div class="btitle">PROYECTO SIETE</div><div class="bclient">Cliente · 2022</div></div>
     </div>
@@ -432,8 +463,8 @@ footer { padding: 28px 40px; border-top: 1px solid rgba(242,237,228,.06); displa
   </div>
   <div class="contact-row rv" style="transition-delay:.1s">
     <div class="contact-links">
-      <a href="mailto:hola@santitord.com" class="clink">
-        <span class="clink-label">Email</span><span class="clink-val">hola@santitord.com</span><span class="clink-arr">↗</span>
+      <a href="/cdn-cgi/l/email-protection#533b3c3f321320323d273a273c21377d303c3e" class="clink">
+        <span class="clink-label">Email</span><span class="clink-val"><span class="__cf_email__" data-cfemail="3a5255565b7a495b544e534e55485e14595557">[email&#160;protected]</span></span><span class="clink-arr">↗</span>
       </a>
       <a href="https://linkedin.com/in/santitord" class="clink">
         <span class="clink-label">LinkedIn</span><span class="clink-val">linkedin.com/in/santitord</span><span class="clink-arr">↗</span>
@@ -465,7 +496,7 @@ footer { padding: 28px 40px; border-top: 1px solid rgba(242,237,228,.06); displa
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const cur = document.getElementById('cur');
 document.addEventListener('mousemove', e => { cur.style.left = e.clientX-6+'px'; cur.style.top = e.clientY-6+'px'; });
 document.querySelectorAll('a,button,.bcard').forEach(el => {
@@ -474,6 +505,23 @@ document.querySelectorAll('a,button,.bcard').forEach(el => {
 });
 const obs = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting) e.target.classList.add('on'); }), {threshold:.1});
 document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+
+// VIDEO PREVIEW — play 5s en loop al hacer hover
+document.querySelectorAll('.bcard').forEach(card => {
+  const video = card.querySelector('.bvideo');
+  if (!video) return;
+  let timer = null;
+  card.addEventListener('mouseenter', () => {
+    video.currentTime = 0;
+    video.play().catch(() => {});
+    timer = setTimeout(() => { video.currentTime = 0; video.play().catch(() => {}); }, 5000);
+  });
+  card.addEventListener('mouseleave', () => {
+    clearTimeout(timer);
+    video.pause();
+    video.currentTime = 0;
+  });
+});
 const projects = [
   { cat:'Campaña Masiva · Film 360°', title:'NOMBRE DEL PROYECTO', vis:'linear-gradient(135deg,#0d0d00,#1a1a00,#0a0a08)', desc:'Descripción del proyecto. Acá va el brief, el desafío creativo, la solución que encontraste y los resultados que generó. Podés mencionar medios, alcance, premios.' },
   { cat:'Identidad de Marca', title:'PROYECTO DOS', vis:'linear-gradient(135deg,#0a0008,#130010,#080808)', desc:'Descripción del proyecto de branding. Contá el proceso, la identidad que construiste y el impacto para el cliente.' },
@@ -498,8 +546,4 @@ function closeProject() {
   m.style.opacity='0'; m.style.pointerEvents='none';
   document.body.style.overflow='';
 }
-document.getElementById('modal').addEventListener('click', e => { if(e.target===document.getElementById('modal')) closeProject(); });
-document.addEventListener('keydown', e => { if(e.key==='Escape') closeProject(); });
-</script>
-</body>
-</html>
+docu
