@@ -546,4 +546,8 @@ function closeProject() {
   m.style.opacity='0'; m.style.pointerEvents='none';
   document.body.style.overflow='';
 }
-docu
+document.getElementById('modal').addEventListener('click', e => { if(e.target===document.getElementById('modal')) closeProject(); });
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeProject(); });
+</script>
+</body>
+</html>
