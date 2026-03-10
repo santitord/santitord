@@ -344,42 +344,42 @@ footer { padding: 28px 40px; border-top: 1px solid rgba(242,237,228,.06); displa
   <div class="bento rv" style="transition-delay:.3s">
     <div class="bcard bcard-1" onclick="openProject(0)">
       <div class="bvis v1"><div class="v1-lines"></div></div>
-     <iframe class="bvideo" src="https://player.vimeo.com/video/1172237382" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+     <iframe class="bvideo" src="https://player.vimeo.com/video/1172237382" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
       <div class="bvideo-overlay"></div>
       <div class="blabel">Digital</div><div class="byear">24</div>
       <div class="binfo"><div class="bcat">Film Publicitario</div><div class="btitle">Whisky Ballantines</div><div class="bclient">Ballantines · Producción HAMBRE · 2025</div></div>
     </div>
     <div class="bcard bcard-2" onclick="openProject(1)">
       <div class="bvis v2"><div class="v2-circle"></div></div>
-     <iframe class="bvideo" src="https://player.vimeo.com/video/1172238818" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+     <iframe class="bvideo" src="https://player.vimeo.com/video/1172238818" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
       <div class="bvideo-overlay"></div>
       <div class="blabel">Digital</div><div class="byear">24</div>
       <div class="binfo"><div class="bcat">Spot redes</div><div class="btitle">TRAMPA</div><div class="bclient">Trampa.ar · 2025</div></div>
     </div>
     <div class="bcard bcard-3" onclick="openProject(2)">
       <div class="bvis v3"></div>
-     <iframe class="bvideo" src="https://player.vimeo.com/video/1172237860" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+     <iframe class="bvideo" src="https://player.vimeo.com/video/1172237860" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
       <div class="bvideo-overlay"></div>
       <div class="blabel">Digital</div><div class="byear">23</div>
       <div class="binfo"><div class="bcat">Lanzamiento de producto</div><div class="btitle">Beldent</div><div class="bclient">Beldent Limón Ácido · 2024</div></div>
     </div>
     <div class="bcard bcard-4" onclick="openProject(3)">
       <div class="bvis v4"><div class="v4-grid"></div><div class="v4-dot"></div></div>
-     <iframe class="bvideo" src="https://player.vimeo.com/video/1172238180" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+     <iframe class="bvideo" src="https://player.vimeo.com/video/1172238180" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
       <div class="bvideo-overlay"></div>
       <div class="blabel">Digital</div><div class="byear">23</div>
       <div class="binfo"><div class="bcat">Dirección de Arte IA</div><div class="btitle">Adidas</div><div class="bclient">Adidas Nothing Is Impossible· 2024</div></div>
     </div>
     <div class="bcard bcard-5" onclick="openProject(4)">
       <div class="bvis v5"></div>
-     <iframe class="bvideo" src="https://www.youtube.com/embed/pBpAf6XpSpo?autoplay=0&mute=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+     <iframe class="bvideo" src="https://www.youtube.com/embed/pBpAf6XpSpo?autoplay=0&mute=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
       <div class="bvideo-overlay"></div>
       <div class="blabel">Film</div><div class="byear">23</div>
       <div class="binfo"><div class="bcat">Film Publicitario</div><div class="btitle">Ansake</div><div class="bclient">Ansake.ar · 2024</div></div>
     </div>
     <div class="bcard bcard-6" onclick="openProject(5)">
       <div class="bvis v6"></div>
-      <iframe class="bvideo" src="https://player.vimeo.com/video/1172239339" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      <iframe class="bvideo" src="https://player.vimeo.com/video/1172239339" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
       <div class="bvideo-overlay"></div>
       <div class="blabel">360°</div><div class="byear">22</div>
       <div class="binfo"><div class="bcat">Campaña 360°</div><div class="btitle">Kinder</div><div class="bclient">Kinder EasterDay · 2026</div></div>
@@ -480,29 +480,24 @@ document.querySelectorAll('a,button,.bcard').forEach(el => {
 const obs = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting) e.target.classList.add('on'); }), {threshold:.1});
 document.querySelectorAll('.rv').forEach(el => obs.observe(el));
 
-// VIDEO PREVIEW — play 5s en loop al hacer hover
+// VIDEO PREVIEW — hover muestra iframe
 document.querySelectorAll('.bcard').forEach(card => {
-  const video = card.querySelector('.bvideo');
-  if (!video) return;
-  let timer = null;
+  const iframe = card.querySelector('.bvideo');
+  if (!iframe) return;
   card.addEventListener('mouseenter', () => {
-    video.currentTime = 0;
-    video.play().catch(() => {});
-    timer = setTimeout(() => { video.currentTime = 0; video.play().catch(() => {}); }, 5000);
+    iframe.style.opacity = '1';
   });
   card.addEventListener('mouseleave', () => {
-    clearTimeout(timer);
-    video.pause();
-    video.currentTime = 0;
+    iframe.style.opacity = '0';
   });
 });
 const projects = [
-  { cat:'Spot Facultativo · 2025', title:'BALLANTINES WHISKY', vis:'linear-gradient(135deg,#0d0d00,#1a1a00,#0a0a08)', desc:'Spot de 45 segundos ambientado en una cafetería de época. Una mujer sola, dos mujeres que la boicotean, y un hombre en la barra con su whisky. La tensión crece hasta el giro final: toda la disputa no era por él, sino por la botella de Ballantines. Humor, narrativa y producto integrado de forma orgánica.' },
-  { cat:'Spot Facultativo · 2025', title:'TRAMPA', vis:'linear-gradient(135deg,#0a0008,#130010,#080808)', desc:'Spot de 30 segundos para marca de indumentaria platense. Un protagonista con los ojos vendados en medio de una fiesta descontrolada. Una voz le dice "todo ha sido una trampa" y despierta baboseado en su escritorio, vestido de oficina, sin entender nada. En su mano: un pañuelo con el nombre de la marca. Sueño surrealista, despertar abrupto, branding integrado al concepto.' },
-  { cat:'Spot Facultativo · 2024', title:'BELDENT LIMÓN ÁCIDO', vis:'linear-gradient(135deg,#1a1a00,#0d0d00,#001018)', desc:'Spot con voz en off en tercera persona para el lanzamiento del chicle Beldent Limón Ácido. El protagonista atraviesa una seguidilla de situaciones absurdas: dos obreros con un vidrio gigante le cortan el paso, un perro le hace pis desde un balcón, se le va el colectivo. Tagline final: "Beldent Limón Ácido, para personas sin pelos en la lengua." Humor costumbrista argentino con cierre en locación real.' },
-  { cat:'Spot Facultativo · 2024', title:'ADIDAS — NOTHING IS IMPOSSIBLE', vis:'linear-gradient(135deg,#0f0f08,#1a1a08)', desc:'Spot motivacional de 20 segundos para Adidas. Un hombre suena el despertador, lo apaga, se pone el gorro, se ata las zapatillas y sale a correr. Sin diálogos, sin efectos. Solo acción, ritmo y el claim final de la marca. Ejercicio de dirección de arte con foco en el lenguaje visual minimalista de Adidas.' },
-  { cat:'Spot Facultativo · 2024', title:'ANSAKE', vis:'linear-gradient(135deg,#0a0000,#180500)', desc:'Spot para marca de indumentaria platense. Un tipo con pasamontañas fuerza la entrada a un local, todo desde el punto de vista de una cámara de seguridad. Cuando encuentra el conjunto que busca lo pone sobre la mesa y colapsa. El concepto gira en torno a la rumiación: ese deseo compulsivo de querer algo ya. El cierre son planos detalle del producto.' },
-  { cat:'Spot Full IA · 2026', title:'KINDER EASTER DAY', vis:'linear-gradient(135deg,#0c0c10,#10101a)', desc:'Spot 100% generado con inteligencia artificial para Kinder Huevo. Imágenes con NanoBanana, video con Kling y voz en off. Dos conejos descubren una cueva con un glow dorado que los lleva a un mundo chocolatoso estilo Willy Wonka. Un cofre, una transición y el huevo Kinder aparece girando en cámara. Claim final: "Kinder Huevo, el sabor que hace magia." Primera pieza full IA del portfolio.' }
+  { cat:'Spot Facultativo · 2025', title:'BALLANTINES WHISKY', vis:'linear-gradient(135deg,#0d0d00,#1a1a00,#0a0a08)', video:'https://player.vimeo.com/video/1172237382', desc:'Spot de 45 segundos ambientado en una cafetería de época. Una mujer sola, dos mujeres que la boicotean, y un hombre en la barra con su whisky. La tensión crece hasta el giro final: toda la disputa no era por él, sino por la botella de Ballantines. Humor, narrativa y producto integrado de forma orgánica.' },
+  { cat:'Spot Facultativo · 2025', title:'TRAMPA', vis:'linear-gradient(135deg,#0a0008,#130010,#080808)', video:'https://player.vimeo.com/video/1172238818', desc:'Spot de 30 segundos para marca de indumentaria platense. Un protagonista con los ojos vendados en medio de una fiesta descontrolada. Una voz le dice "todo ha sido una trampa" y despierta baboseado en su escritorio, vestido de oficina, sin entender nada. En su mano: un pañuelo con el nombre de la marca. Sueño surrealista, despertar abrupto, branding integrado al concepto.' },
+  { cat:'Spot Facultativo · 2024', title:'BELDENT LIMÓN ÁCIDO', vis:'linear-gradient(135deg,#1a1a00,#0d0d00,#001018)', video:'https://player.vimeo.com/video/1172237860', desc:'Spot con voz en off en tercera persona para el lanzamiento del chicle Beldent Limón Ácido. El protagonista atraviesa una seguidilla de situaciones absurdas: dos obreros con un vidrio gigante le cortan el paso, un perro le hace pis desde un balcón, se le va el colectivo. Tagline final: "Beldent Limón Ácido, para personas sin pelos en la lengua." Humor costumbrista argentino con cierre en locación real.' },
+  { cat:'Spot Facultativo · 2024', title:'ADIDAS — NOTHING IS IMPOSSIBLE', vis:'linear-gradient(135deg,#0f0f08,#1a1a08)', video:'https://player.vimeo.com/video/1172238180', desc:'Spot motivacional de 20 segundos para Adidas. Un hombre suena el despertador, lo apaga, se pone el gorro, se ata las zapatillas y sale a correr. Sin diálogos, sin efectos. Solo acción, ritmo y el claim final de la marca. Ejercicio de dirección de arte con foco en el lenguaje visual minimalista de Adidas.' },
+  { cat:'Spot Facultativo · 2024', title:'ANSAKE', vis:'linear-gradient(135deg,#0a0000,#180500)', video:'https://www.youtube.com/embed/pBpAf6XpSpo?enablejsapi=1', desc:'Spot para marca de indumentaria platense. Un tipo con pasamontañas fuerza la entrada a un local, todo desde el punto de vista de una cámara de seguridad. Cuando encuentra el conjunto que busca lo pone sobre la mesa y colapsa. El concepto gira en torno a la rumiación: ese deseo compulsivo de querer algo ya. El cierre son planos detalle del producto.' },
+  { cat:'Spot Full IA · 2026', title:'KINDER EASTER DAY', vis:'linear-gradient(135deg,#0c0c10,#10101a)', video:'https://player.vimeo.com/video/1172239339', desc:'Spot 100% generado con inteligencia artificial para Kinder Huevo. Imágenes con NanoBanana, video con Kling y voz en off. Dos conejos descubren una cueva con un glow dorado que los lleva a un mundo chocolatoso estilo Willy Wonka. Un cofre, una transición y el huevo Kinder aparece girando en cámara. Claim final: "Kinder Huevo, el sabor que hace magia." Primera pieza full IA del portfolio.' }
 ];
   
 function openProject(i) {
@@ -511,6 +506,13 @@ function openProject(i) {
   document.getElementById('mcat').textContent=p.cat;
   document.getElementById('mtitle').textContent=p.title;
   document.getElementById('mdesc').textContent=p.desc;
+  // Inyectar iframe del video
+  const mvis = document.getElementById('mvis');
+  if(p.video) {
+    mvis.innerHTML = '<iframe src="'+p.video+'?autoplay=1&title=0&byline=0&portrait=0" style="position:absolute;inset:0;width:100%;height:100%;border:0;" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>';
+  } else {
+    mvis.innerHTML = '';
+  }
   const m=document.getElementById('modal');
   m.style.opacity='1'; m.style.pointerEvents='all';
   document.body.style.overflow='hidden';
@@ -519,6 +521,7 @@ function closeProject() {
   const m=document.getElementById('modal');
   m.style.opacity='0'; m.style.pointerEvents='none';
   document.body.style.overflow='';
+  document.getElementById('mvis').innerHTML='';
 }
 document.getElementById('modal').addEventListener('click', e => { if(e.target===document.getElementById('modal')) closeProject(); });
 document.addEventListener('keydown', e => { if(e.key==='Escape') closeProject(); });
