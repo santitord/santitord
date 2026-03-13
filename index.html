@@ -529,4 +529,10 @@ function closeProject() {
   const m=document.getElementById('modal');
   m.style.opacity='0'; m.style.pointerEvents='none';
   document.body.style.overflow='';
-  document.getElementById('mvis').in
+  document.getElementById('mvis').innerHTML='';
+}
+document.getElementById('modal').addEventListener('click', e => { if(e.target===document.getElementById('modal')) closeProject(); });
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeProject(); });
+</script>
+</body>
+</html>
