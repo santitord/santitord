@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <radialGradient id="g1" cx="80%" cy="20%" r="50%">
+      <stop offset="0%" stop-color="#c8ff00" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#c8ff00" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="g2" cx="10%" cy="80%" r="50%">
+      <stop offset="0%" stop-color="#ff3c00" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#ff3c00" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#0a0a08"/>
+  <rect width="1200" height="630" fill="url(#g1)"/>
+  <rect width="1200" height="630" fill="url(#g2)"/>
+  <line x1="70" y1="80" x2="120" y2="80" stroke="#c8ff00" stroke-width="2"/>
+  <text x="134" y="86" font-family="monospace" font-size="18" fill="#c8ff00" letter-spacing="4">LA PLATA, BUENOS AIRES — DISPONIBLE REMOTO</text>
+  <text x="70" y="330" font-family="Arial Black, Impact, sans-serif" font-weight="900" font-size="200" fill="#f2ede4" letter-spacing="-6">SANTI</text>
+  <text x="70" y="510" font-family="Georgia, Times New Roman, serif" font-style="italic" font-weight="400" font-size="165" fill="#f2ede4" letter-spacing="-4">TORD</text>
+  <text x="820" y="300" font-family="monospace" font-size="18" fill="rgba(242,237,228,0.35)" letter-spacing="3">CREATIVO PUBLICITARIO</text>
+  <text x="820" y="328" font-family="monospace" font-size="18" fill="rgba(242,237,228,0.35)" letter-spacing="3">DIRECCIÓN DE ARTE · IA</text>
+  <rect x="820" y="345" width="300" height="1" fill="rgba(242,237,228,0.1)"/>
+  <text x="820" y="370" font-family="monospace" font-size="16" fill="rgba(200,255,0,0.5)" letter-spacing="3">SANTITORD.COM.AR</text>
+</svg>
